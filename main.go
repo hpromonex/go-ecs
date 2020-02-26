@@ -4,15 +4,14 @@ import (
 	"fmt"
 
 	"github.com/hpromonex/go-ecs/component"
-
-	"github.com/hpromonex/go-ecs/bitmatrix"
+	"github.com/hpromonex/go-ecs/entitymgr"
 )
 
 func main() {
 
 	fmt.Printf("Component count: %d\n", component.Count)
 
-	var bm bitmatrix.Bitmatrix
+	var bm entitymgr.Bitmatrix
 
 	bm.Set(0, component.A, true)
 	bm.Set(0, component.B, true)

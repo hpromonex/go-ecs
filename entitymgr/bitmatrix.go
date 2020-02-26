@@ -1,17 +1,16 @@
-package bitmatrix
+package entitymgr
 
 import (
 	"fmt"
 	"strings"
 
-	"github.com/hpromonex/go-ecs/cluster"
 	"github.com/hpromonex/go-ecs/component"
 )
 
 const bytesPerEntity = component.Count/8 + 1
 
 // Bitmatrix represents a bitmatrix
-type Bitmatrix [cluster.Size * bytesPerEntity]byte
+type Bitmatrix [ClusterSize * bytesPerEntity]byte
 
 // Set sets the bit at coords
 func (bm *Bitmatrix) Set(id, bit component.ID, val bool) {
@@ -56,12 +55,12 @@ func (bm Bitmatrix) String() string {
 }
 
 // Query component Ids
-func (bm *Bitmatrix) Query(components ...component.ID) []component.ID {
+func (bm *Bitmatrix) Query(components ...component.ID) []uint32 {
 
 	query := idsToBytes(components)
 	bpe := int(bytesPerEntity)
 
-	var ids []component.ID
+	var ids []uint32
 	for i := 0; i < len(bm)/bpe; i++ {
 		entityBytes := bm[i*bpe : i*bpe+bpe]
 
@@ -81,7 +80,7 @@ func (bm *Bitmatrix) Query(components ...component.ID) []component.ID {
 		}
 
 		if mark {
-			ids = append(ids, component.ID(i))
+			ids = append(ids, uint32(i))
 		}
 	}
 
